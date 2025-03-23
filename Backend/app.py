@@ -9,7 +9,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import io
 from datetime import datetime
-from haystack_pipeline import get_answer
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -425,14 +424,21 @@ def generate_report():
     
     
 def generate_test_models():
+    """
+    Generate placeholder models for development purposes
+    This function would be called separately during setup
+    """
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.preprocessing import StandardScaler
     import os
     import numpy as np
     
+    # Create models directory if it doesn't exist
     if not os.path.exists(MODEL_DIR):
         os.makedirs(MODEL_DIR)
     
+    # Define top features (this would normally come from analysis)
+    # Clean up feature names to avoid trailing spaces
     breast_top_features = [
         'radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 
         'smoothness_mean', 'compactness_mean', 'concavity_mean', 
@@ -522,6 +528,7 @@ if __name__ == "__main__":
         
     if lung_cancer_features:
         logger.info(f"Loaded lung cancer features: {lung_cancer_features}")
+        # Show the cleaned feature names that should be used in API requests
         cleaned_features = [feature.strip().lower().replace(' ', '_') for feature in lung_cancer_features]
         logger.info(f"API parameter names for lung cancer: {cleaned_features}")
     else:
