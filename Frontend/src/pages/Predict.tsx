@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
 import axios from 'axios';
 
-// Define types for our prediction results
 interface PredictionResult {
   prediction: string;
   probability: number;
@@ -25,7 +24,6 @@ const Predict = () => {
   const [breastFeatures, setBreastFeatures] = useState<string[]>([]);
   const [lungFeatures, setLungFeatures] = useState<string[]>([]);
   
-  // For breast cancer form
   const [radiusMean, setRadiusMean] = useState('');
   const [textureMean, setTextureMean] = useState('');
   const [perimeterMean, setPerimeterMean] = useState('');
@@ -46,20 +44,16 @@ const Predict = () => {
   const [fatigue, setFatigue] = useState('0');
   const [coughing, setCoughing] = useState('0');
 
-  // API endpoint
   const API_BASE_URL = 'http://localhost:5000/api';
 
-  // Fetch features from the backend when component mounts
   useEffect(() => {
     const fetchFeatures = async () => {
       try {
-        // Fetch breast cancer features
         const breastResponse = await axios.get<CancerFeatures>(`${API_BASE_URL}/info/breast`);
         if (breastResponse.data.status === 'success') {
           setBreastFeatures(breastResponse.data.features);
         }
         
-        // Fetch lung cancer features
         const lungResponse = await axios.get<CancerFeatures>(`${API_BASE_URL}/info/lung`);
         if (lungResponse.data.status === 'success') {
           setLungFeatures(lungResponse.data.features);
@@ -81,7 +75,6 @@ const Predict = () => {
       let response;
       
       if (cancerType === 'breast') {
-        // Prepare breast cancer data
         const breastCancerData = {
           radius_mean: parseFloat(radiusMean),
           texture_mean: parseFloat(textureMean),
@@ -95,14 +88,11 @@ const Predict = () => {
           fractal_dimension_mean: parseFloat(fractalDimensionMean)
         };
         
-        // Call breast cancer API
         response = await axios.post<PredictionResult>(
           `${API_BASE_URL}/predict/breast`, 
           breastCancerData
         );
       } else if (cancerType === 'lung') {
-        // Prepare lung cancer data according to the actual backend features
-        // Making sure to match the expected parameter names
         const lungCancerData = {
           age: parseFloat(age),
           alcohol_consuming: parseFloat(alcoholConsuming),
@@ -113,7 +103,6 @@ const Predict = () => {
           coughing: parseFloat(coughing)
         };
         
-        // Call lung cancer API
         response = await axios.post<PredictionResult>(
           `${API_BASE_URL}/predict/lung`, 
           lungCancerData
@@ -122,13 +111,10 @@ const Predict = () => {
         throw new Error('Please select a cancer type');
       }
       
-      // Store results in localStorage to access on results page
       localStorage.setItem('predictionResult', JSON.stringify(response.data));
       
-      // Store the cancer type in localStorage
       localStorage.setItem('cancerType', cancerType);
       
-      // Navigate to results page
       navigate('/results');
     } catch (err) {
       console.error('Prediction error:', err);

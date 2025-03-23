@@ -17,21 +17,18 @@ const Results = () => {
   const [downloadError, setDownloadError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Retrieve stored prediction results from localStorage
     const storedResult = localStorage.getItem('predictionResult');
-    const cancerType = localStorage.getItem('cancerType'); // Assuming you store this elsewhere
+    const cancerType = localStorage.getItem('cancerType');
     
     if (storedResult) {
       const parsedResult = JSON.parse(storedResult);
-      // Add the cancer type to the result
       setResult({
         ...parsedResult,
-        type: cancerType || 'breast' // Default to breast if not available
+        type: cancerType || 'breast' 
       });
     }
   }, []);
 
-  // Function to download PDF report
   const handleDownloadReport = async () => {
     if (!result) return;
     
@@ -39,7 +36,6 @@ const Results = () => {
     setDownloadError(null);
     
     try {
-      // Make API call to generate PDF
       const response = await fetch('http://localhost:5000/api/report/generate', {
         method: 'POST',
         headers: {
@@ -52,21 +48,17 @@ const Results = () => {
         throw new Error('Failed to generate PDF report');
       }
       
-      // Get the PDF as a blob
       const blob = await response.blob();
       
-      // Create a download link
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.style.display = 'none';
       a.href = url;
       a.download = `cancer_prediction_report_${new Date().toISOString().split('T')[0]}.pdf`;
       
-      // Add link to document and trigger download
       document.body.appendChild(a);
       a.click();
       
-      // Clean up
       window.URL.revokeObjectURL(url);
       document.body.removeChild(a);
       
@@ -116,7 +108,6 @@ const Results = () => {
                 Probability: <strong>{(result.probability * 100).toFixed(2)}%</strong>
               </p>
 
-              {/* Recommendations based on the prediction */}
               <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
                 <h3 className="text-lg font-semibold text-[#2C3E50] dark:text-white mb-2">
                   Recommendations
@@ -138,7 +129,6 @@ const Results = () => {
                 )}
               </div>
 
-              {/* Error message if download fails */}
               {downloadError && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
                   {downloadError}

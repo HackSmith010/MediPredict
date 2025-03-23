@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Activity, Menu, X, Sun, Moon } from 'lucide-react';
 
@@ -20,7 +20,6 @@ const Navbar = () => {
             <span className="text-xl font-bold text-[#2C3E50] dark:text-white">MediPredict</span>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-[#6C757D] hover:text-[#4A90E2] dark:text-gray-300 dark:hover:text-white transition">
               Home
@@ -39,7 +38,7 @@ const Navbar = () => {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
+          
           <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -50,7 +49,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        
         {isOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Brain, Shield, Zap } from 'lucide-react';
@@ -13,7 +12,7 @@ const Home = () => {
       exit={{ opacity: 0 }}
       className="flex-1"
     >
-      {/* Hero Section */}
+      
       <div 
         className="relative bg-gradient-to-r from-[#4A90E2] to-[#008080] py-24"
         style={{
@@ -51,7 +50,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Features Section */}
+      
       <div className="py-16 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
