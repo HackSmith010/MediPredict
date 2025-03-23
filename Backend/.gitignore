@@ -1,0 +1,6 @@
+.env
+.venv
+haystack_pipeline.py
+temp.py
+models
+__pycache__
